@@ -26,7 +26,6 @@ public class CheckController {
         Map<String, String> response = Map.of(
                 "message", "Request /v2/checkJson completed!"
         );
-
         return ResponseEntity.ok(response);
     }
 
