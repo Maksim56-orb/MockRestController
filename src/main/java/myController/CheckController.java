@@ -19,7 +19,7 @@ public class CheckController {
         return "Request /v1/check completed!";
     }
 
-    @PostMapping("/v3/checkJson")
+    @PostMapping("/v2/checkJson")
     public ResponseEntity<Map<String, String>> checkJson(@RequestBody Map<String, Object> inputJson) {
         log.info("got request /v2/checkJson successfully: {}", inputJson);
 
