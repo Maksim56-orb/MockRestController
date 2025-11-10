@@ -1,12 +1,13 @@
 package myController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Slf4j
@@ -27,5 +28,44 @@ public class CheckController {
                 "message", "Request /v2/checkJson completed!"
         );
         return ResponseEntity.ok(response);
+    }
+
+    @RequestMapping("/v3/checkHeaders")
+    public Map<String, Object> checkRequest(@RequestHeader Map<String, String> headers) {
+        log.info("Got request /check");
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Tvoy zapros");
+        response.put("headers", headers);
+        log.info("Log return value: {}", response);
+        return response;
+    }
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @PostMapping("/v4/checkPlusTelo")
+    public Map<String, Object> checkRequest(
+            @RequestHeader Map<String, String> headers,
+            HttpServletRequest request
+    ) throws IOException {
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("message", "Tvoy zapros");
+        response.put("headers", headers);
+
+        //прочитаем тело запроса как строку.
+        String body = request.getReader().lines()
+                .reduce("", (accumulator, actual) -> accumulator + actual);
+
+        //пытаемся распарсить как JSON
+        Object parsedData;
+        try {
+            parsedData = objectMapper.readValue(body, Map.class);
+        } catch (Exception e) {
+            parsedData = body.isBlank() ? Map.of() : body;  //если не получилось распарсить как JSON, то просто считаем, что это тело запроса
+        }
+
+        response.put("Dannye tvoego zaprosa", parsedData);
+        log.info("Got request /checkPlusTelo");
+        log.info("Log return value: {}", response);
+        return response;
     }
 }
