@@ -2,17 +2,24 @@ package myController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import myController.service.DataInsertService;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 public class CheckController {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final DataInsertService dataInsertService;
 
     @GetMapping("/v1/check")
     public String check() {
@@ -40,8 +47,6 @@ public class CheckController {
         return response;
     }
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @PostMapping("/v4/checkPlusTelo")
     public Map<String, Object> checkRequest(
             @RequestHeader Map<String, String> headers,
@@ -67,5 +72,16 @@ public class CheckController {
         log.info("Got request /checkPlusTelo");
         log.info("Log return value: {}", response);
         return response;
+    }
+
+    @PostMapping("/v5/sendToDB")
+    public ResponseEntity<Map<String, String>> insertNames() {
+        log.info("Got request /v5/sendToDB");
+        dataInsertService.insertSampleData();
+
+        Map<String, String> response = Map.of(
+                "message", "15 записей успешно добавлены в базу данных."
+        );
+        return ResponseEntity.ok(response);
     }
 }

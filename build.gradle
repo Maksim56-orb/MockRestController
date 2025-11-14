@@ -4,7 +4,7 @@ plugins {
     id 'java'
 }
 
-group = 'org.example'
+group = 'my.mock'
 
 repositories {
     mavenCentral()
@@ -12,6 +12,10 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    runtimeOnly 'org.postgresql:postgresql'
+
     implementation("com.fasterxml.jackson.core:jackson-databind")
     compileOnly("org.projectlombok:lombok") // опционально
     annotationProcessor("org.projectlombok:lombok") // опционально
