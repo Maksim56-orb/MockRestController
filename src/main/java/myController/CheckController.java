@@ -75,13 +75,11 @@ public class CheckController {
     }
 
     @PostMapping("/v5/sendToDB")
-    public ResponseEntity<Map<String, String>> insertNames() {
+    public ResponseEntity<String> insertData() {
         log.info("Got request /v5/sendToDB");
         dataInsertService.insertSampleData();
 
-        Map<String, String> response = Map.of(
-                "message", "15 записей успешно добавлены в базу данных."
-        );
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
     }
+
 }
