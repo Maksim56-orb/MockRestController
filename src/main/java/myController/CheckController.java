@@ -8,12 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import myController.service.DataInsertService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 @Slf4j
+@Tag(name = "CheckController", description = "Тетсовый ко контроллер")
 @RestController
 @RequiredArgsConstructor
 public class CheckController {
@@ -22,12 +29,14 @@ public class CheckController {
     private final DataInsertService dataInsertService;
 
     @GetMapping("/v1/check")
+    @Operation(summary = "Get метод /v1/check", description = "Простой метод, предназначен для тестового запроса/проверке соединения и т.д. ")
     public String check() {
         log.info("got request /v1/check successfully");
         return "Request /v1/check completed!";
     }
 
     @PostMapping("/v2/checkJson")
+    @Operation(summary = "Post метод /v2/checkJson", description = "Простой метод, предназначен для тестового запроса/проверке соединения, принимает тело в запросе, отдает тело в ответе.")
     public ResponseEntity<Map<String, String>> checkJson(@RequestBody Map<String, Object> inputJson) {
         log.info("got request /v2/checkJson successfully: {}", inputJson);
 
@@ -37,7 +46,9 @@ public class CheckController {
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping("/v3/checkHeaders")
+    @GetMapping("/v3/checkHeaders")
+    @Operation(summary = "Метод /v3/checkHeaders", description = "Данный метод, предназначен для проверки отправляемых заголовков во входящем запросе. Метод едает слепок фактически пришедших заголовков в запросе и возвращает их.")
+
     public Map<String, Object> checkRequest(@RequestHeader Map<String, String> headers) {
         log.info("Got request /check");
         Map<String, Object> response = new LinkedHashMap<>();
@@ -48,6 +59,8 @@ public class CheckController {
     }
 
     @PostMapping("/v4/checkPlusTelo")
+    @Operation(summary = "Post метод /v3/checkHeaders", description = "Данный метод, предназначен для проверки отправляемых заголовков и передаваемого тела во входящем запросе. Метод делает слепок фактически пришедших заголовков и передаваемого тела (json) в запросе и возвращает их списком.")
+
     public Map<String, Object> checkRequest(
             @RequestHeader Map<String, String> headers,
             HttpServletRequest request
@@ -75,6 +88,8 @@ public class CheckController {
     }
 
     @PostMapping("/v5/sendToDB")
+    @Operation(summary = "Post Метод /v5/sendToDB", description = "Данный метод, предназначен для наполнения базы данных.")
+
     public ResponseEntity<String> insertData() {
         log.info("Got request /v5/sendToDB");
         dataInsertService.insertSampleData();
