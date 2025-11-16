@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import myController.service.KafkaProducerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import myController.service.DataInsertService;
@@ -25,8 +26,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CheckController {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    private final DataInsertService dataInsertService;
+    //информация по методам контроллера описана в Swagger  http://92.242.61.11:9001/swagger-ui/index.html
 
     @GetMapping("/v1/check")
     @Operation(summary = "Get метод /v1/check", description = "Простой метод, предназначен для тестового запроса/проверке соединения и т.д. ")
@@ -47,7 +47,7 @@ public class CheckController {
     }
 
     @GetMapping("/v3/checkHeaders")
-    @Operation(summary = "Метод /v3/checkHeaders", description = "Данный метод, предназначен для проверки отправляемых заголовков во входящем запросе. Метод едает слепок фактически пришедших заголовков в запросе и возвращает их.")
+    @Operation(summary = "Get Метод /v3/checkHeaders", description = "Данный метод, предназначен для проверки отправляемых заголовков во входящем запросе. Метод едает слепок фактически пришедших заголовков в запросе и возвращает их.")
 
     public Map<String, Object> checkRequest(@RequestHeader Map<String, String> headers) {
         log.info("Got request /check");
@@ -57,6 +57,8 @@ public class CheckController {
         log.info("Log return value: {}", response);
         return response;
     }
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @PostMapping("/v4/checkPlusTelo")
     @Operation(summary = "Post метод /v3/checkHeaders", description = "Данный метод, предназначен для проверки отправляемых заголовков и передаваемого тела во входящем запросе. Метод делает слепок фактически пришедших заголовков и передаваемого тела (json) в запросе и возвращает их списком.")
@@ -87,6 +89,8 @@ public class CheckController {
         return response;
     }
 
+    private final DataInsertService dataInsertService;
+
     @PostMapping("/v5/sendToDB")
     @Operation(summary = "Post Метод /v5/sendToDB", description = "Данный метод, предназначен для наполнения базы данных.")
 
@@ -95,6 +99,19 @@ public class CheckController {
         dataInsertService.insertSampleData();
 
         return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
+    }
+
+    private final KafkaProducerService kafkaProducerService;
+
+    @PostMapping("/v6/sendToKafka")
+    @Operation(summary = "Post Метод /v6/sendToKafka", description = "Данный метод отправляет сообщение в Kafka.")
+    public ResponseEntity<String> sendToKafka() {
+        log.info("Got request /v6/sendToKafka");
+
+        String message = "Моё сообщение для Kafka в топике my-topic";
+        kafkaProducerService.sendMessage("my-topic", message);
+
+        return ResponseEntity.ok("Сообщение успешно отправлено в Kafka!");
     }
 
 }
