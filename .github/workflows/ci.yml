@@ -43,18 +43,9 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
-          script: |
-            docker rm -f mock-rest || true
-
-            docker kill $(docker ps -q --filter "publish=9001") 2>/dev/null || true
-            docker rm -f $(docker ps -aq --filter "publish=9001") 2>/dev/null || true
-
-            docker pull ${{ secrets.DOCKER_USERNAME }}/mock-rest-controller:latest
-
-            docker run -d \
-              --name mock-rest \
-              --restart unless-stopped \
-              -p 9001:9001 \
-              ${{
-
-  secrets.DOCKER_USERNAME }}/mock-rest-controller:latest
+          script: >-
+            docker rm -f mock-rest || true &&
+            docker kill $(docker ps -q --filter "publish=9001") 2>/dev/null || true &&
+            docker rm -f $(docker ps -aq --filter "publish=9001") 2>/dev/null || true &&
+            docker pull ${{ secrets.DOCKER_USERNAME }}/mock-rest-controller:latest &&
+            docker run -d --name mock-rest --restart unless-stopped -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/mock-rest-controller:latest
