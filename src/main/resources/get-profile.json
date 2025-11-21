@@ -1,0 +1,19 @@
+{
+  "id": "999666333",
+  "jsonrpc": "2.0",
+  "result": {
+    "data": {
+      "consent": true,
+      "dateEnd": "2025-11-02T00:00:00",
+      "tasksCompleted": 1,
+      "tasksTotal": 11,
+      "items": 0,
+      "currencies": [
+        {
+          "name": "ticket",
+          "amount": 10000
+        }
+      ]
+    }
+  }
+}

@@ -1,9 +1,11 @@
 package myController;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import myController.service.FileLoaderJsonRPC;
 import myController.service.KafkaProducerService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -114,4 +116,25 @@ public class CheckController {
         return ResponseEntity.ok("Сообщение успешно отправлено в Kafka!");
     }
 
+    private final FileLoaderJsonRPC fileLoader;
+
+    @PostMapping("/v7/jsonRpc")
+    @Operation(summary = "Post Метод /v7/jsonRpc", description = "POST метод JsonRPC. Принимает несколько методов на один End-point и в зависомости от метода возвращает разные ответы.")
+    public String ihapi(@RequestBody JsonNode json) {
+        var method = json.get("method").asText();
+        switch (method) {
+            case "engagement.user-api.get-profile" -> {
+                return fileLoader.getFilesContent().get("get-profile.json");
+            }
+            case "engagement.user-api.get-collection" -> {
+                return fileLoader.getFilesContent().get("get-collection.json");
+            }
+            case "engagement.user-api.send-event" -> {
+                return fileLoader.getFilesContent().get("send-event.json");
+            }
+            default -> {
+                return "404";
+            }
+        }
+    }
 }

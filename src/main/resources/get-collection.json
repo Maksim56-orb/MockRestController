@@ -1,0 +1,18 @@
+{
+  "id": "999666333",
+  "jsonrpc": "2.0",
+  "result": {
+    "data": {
+      "collection": [
+        {
+          "title": "Скидка – 500 ₽ при заказе от 3 000 ₽ на всё",
+          "description": "Можно использовать на сайте <a href=\"https://sberdevices.ru/\">Sberdevices.ru</a>. Умные колонки, ТВ, лампы и другие устройства – скидка работает на всё. Просто так.",
+          "image": "https://s-dt2.cloud.edgecore.ru/d-ihubdm-engagement/gmf/items/promoCode500RubAll.webp",
+          "dateEnd": "2026-01-01T00:00:00",
+          "deeplink": "https://sberdevices.ru/shop/?utm_medium=owned&utm_source=salutetv&utm_campaign=lyuminariya&utm_content=all_products_more3000_500promo",
+          "info": "2"
+        }
+      ]
+    }
+  }
+}
