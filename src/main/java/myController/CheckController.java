@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myController.service.FileLoaderJsonRPC;
-import myController.service.KafkaProducerService;
+import myController.service.KafkaProducer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import myController.service.DataInsertService;
@@ -103,15 +103,15 @@ public class CheckController {
         return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
     }
 
-    private final KafkaProducerService kafkaProducerService;
+    private final KafkaProducer kafkaProducer;
 
     @PostMapping("/v6/sendToKafka")
     @Operation(summary = "Post Метод /v6/sendToKafka", description = "Данный метод отправляет сообщение в Kafka.")
     public ResponseEntity<String> sendToKafka() {
         log.info("Got request /v6/sendToKafka");
 
-        String message = "Моё сообщение для Kafka в топике my-topic";
-        kafkaProducerService.sendMessage("my-topic", message);
+        String payload = "Bolsche teksta, bolsche teksta, bolsche teksta, bolsche teksta, bolsche teksta";
+        kafkaProducer.sendMessage("my-topic", payload);
 
         return ResponseEntity.ok("Сообщение успешно отправлено в Kafka!");
     }

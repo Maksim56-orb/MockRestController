@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class KafkaConsumerService {
+public class KafkaConsumer {
 
-    @KafkaListener(topics = "my-topic", groupId = "my-consumer-group")
+    @KafkaListener(topics = "my-topic", groupId = "new-group")
     public void listen(String message) {
-        System.out.println("Out messages from Kafka: " + message);
+        log.info("Out messages from Kafka: {}", message);
     }
 }
 

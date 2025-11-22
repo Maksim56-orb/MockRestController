@@ -35,7 +35,7 @@ public void init() {
             getFileName(getCollection), getFileContent(getCollection),
             getFileName(sendEvent), getFileContent(sendEvent)
     );
-    log.info("Files content: {}", filesContent);
+   // log.info("Files content: {}", filesContent);
 }
 
 private String getFileName(Resource resource) {
