@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class KafkaConsumer {
 
-    @KafkaListener(topics = "my-topic", groupId = "new-group")
+    @KafkaListener(topics = "topicMockServer", groupId = "groupMockServer")
     public void listen(String message) {
         log.info("Out messages from Kafka: {}", message);
     }

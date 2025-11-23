@@ -111,7 +111,7 @@ public class CheckController {
         log.info("Got request /v6/sendToKafka");
 
         String payload = "Bolsche teksta, bolsche teksta, bolsche teksta, bolsche teksta, bolsche teksta";
-        kafkaProducer.sendMessage("my-topic", payload);
+        kafkaProducer.sendMessage("topicMockServer", payload);
 
         return ResponseEntity.ok("Сообщение успешно отправлено в Kafka!");
     }
