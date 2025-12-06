@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @Service
 public class DataInsertService {
 
-    private static final String URL = "jdbc:postgresql://92.242.61.11:5432/mydb";
+    private static final String URL = "jdbc:postgresql://144.31.120.148:5432/mydb";
     private static final String USER = "postgres";
     private static final String PASSWORD = "12345";
     private static final String NAMES_FILE = "names.csv";
