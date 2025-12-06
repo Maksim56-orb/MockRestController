@@ -112,6 +112,8 @@ public class CheckController {
 
         return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
     }
+
+
     private final KafkaProducer kafkaProducer;
 
     @PostMapping("/v6/sendToKafka")
