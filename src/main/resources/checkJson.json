@@ -1,0 +1,18 @@
+{
+  "status": "success",
+  "message": "Data package processed correctly",
+  "timestamp": "2025-02-14T12:45:33Z",
+  "requestId": "a73f9d21-4c55-4b93-8eb0-9271f98ad553",
+  "data": {
+    "user": {
+      "id": 48291,
+      "name": "Ivan Petrov",
+      "role": "admin"
+    },
+    "actions": [
+      "validate",
+      "transform",
+      "archive"
+    ]
+  }
+}

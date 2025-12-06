@@ -6,7 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myController.service.FileLoaderJsonRPC;
+import myController.service.HeaderProvider;
 import myController.service.KafkaProducer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import myController.service.DataInsertService;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -37,15 +42,20 @@ public class CheckController {
         return "Request /v1/check completed!";
     }
 
+    @Autowired
     @PostMapping("/v2/checkJson")
-    @Operation(summary = "Post метод /v2/checkJson", description = "Простой метод, предназначен для тестового запроса/проверке соединения, принимает тело в запросе, отдает тело в ответе.")
-    public ResponseEntity<Map<String, String>> checkJson(@RequestBody Map<String, Object> inputJson) {
+    @Operation(summary = "Post метод /v2/checkJson", description = "Простой метод, принимает тело в запросе и отдает JSON из resources + заголовки.")
+    public ResponseEntity<String> checkJson(@RequestBody Map<String, Object> inputJson) throws IOException {
         log.info("got request /v2/checkJson successfully: {}", inputJson);
 
-        Map<String, String> response = Map.of(
-                "message", "Request /v2/checkJson completed!"
-        );
-        return ResponseEntity.ok(response);
+        ClassPathResource resource = new ClassPathResource("checkJson.json");       // Читаем файл из resources
+        String json = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        HeaderProvider headerProvider = new HeaderProvider(); // подставляю заголовки в ответ, которые соббираются в классе HeaderProvider
+        return ResponseEntity.ok()
+    .headers(headerProvider.getDefaultHeaders())
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(json);
     }
 
     @GetMapping("/v3/checkHeaders")
