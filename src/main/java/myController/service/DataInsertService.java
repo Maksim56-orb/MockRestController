@@ -20,7 +20,7 @@ public class DataInsertService {
 
     private static final String URL = "jdbc:postgresql://144.31.120.148:5432/mydb";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "12345";
+    private static final String PASSWORD = "Hfg8947AyGv78hDfv0934hs";
     private static final String NAMES_FILE = "names.csv";
     private static final String POSITIONS_FILE = "positions.csv";
     private static final String COMPANY_NAME = "Digital Technology";
