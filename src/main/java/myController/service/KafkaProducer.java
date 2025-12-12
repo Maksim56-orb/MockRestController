@@ -24,7 +24,6 @@ public class KafkaProducer {
 
         kafkaTemplate.send(topic, fullMessage);//непосредственно
         log.info("Message sent to topic {} with payload {}", topic, fullMessage);
-
     }
 }
 
