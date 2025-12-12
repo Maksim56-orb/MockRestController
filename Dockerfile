@@ -1,5 +1,4 @@
 FROM eclipse-temurin:21-jdk-alpine
-
 VOLUME /tmp
 
 # Скачиваем JMX Exporter
@@ -12,18 +11,9 @@ COPY consumer_jmx.yml /opt/consumer_jmx.yml
 COPY build/libs/*.jar /app.jar
 
 # Открываем порты
-EXPOSE 9001      # Spring Boot
-EXPOSE 9404      # JMX Exporter (Prometheus)
-EXPOSE 7071      # JMX порт
+EXPOSE 9001
+EXPOSE 9404
+EXPOSE 7071
 
-# Запуск приложения с JMX Exporter и JVM параметрами
-ENTRYPOINT ["java",
-  "-javaagent:/opt/jmx_exporter.jar=9404:/opt/consumer_jmx.yml",
-  "-Dcom.sun.management.jmxremote",
-  "-Dcom.sun.management.jmxremote.port=7071",
-  "-Dcom.sun.management.jmxremote.rmi.port=7071",
-  "-Dcom.sun.management.jmxremote.authenticate=false",
-  "-Dcom.sun.management.jmxremote.ssl=false",
-  "-Djava.rmi.server.hostname=144.31.77.177",
-  "-jar",
-  "/app.jar"]
+# ENTRYPOINT с JSON array в одной строке
+ENTRYPOINT ["java","-javaagent:/opt/jmx_exporter.jar=9404:/opt/consumer_jmx.yml","-Dcom.sun.management.jmxremote","-Dcom.sun.management.jmxremote.port=7071","-Dcom.sun.management.jmxremote.rmi.port=7071","-Dcom.sun.management.jmxremote.authenticate=false","-Dcom.sun.management.jmxremote.ssl=false","-Djava.rmi.server.hostname=144.31.77.177","-jar","/app.jar"]
