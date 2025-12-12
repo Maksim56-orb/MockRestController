@@ -1,0 +1,18 @@
+lowercaseOutputName: true
+lowercaseOutputLabelNames: true
+
+rules:
+  - pattern: "kafka.consumer<type=consumer-metrics, client-id=(.+)><>records-consumed-total"
+    name: kafka_consumer_records_consumed_total
+    labels:
+      client_id: "$1"
+
+  - pattern: "kafka.consumer<type=consumer-metrics, client-id=(.+)><>records-consumed-rate"
+    name: kafka_consumer_records_consumed_rate
+    labels:
+      client_id: "$1"
+
+  - pattern: "kafka.consumer<type=consumer-fetch-manager-metrics, client-id=(.+)><>records-lag-max"
+    name: kafka_consumer_records_lag_max
+    labels:
+      client_id: "$1"
