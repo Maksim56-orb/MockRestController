@@ -109,7 +109,6 @@ public class CheckController {
     public ResponseEntity<String> insertData() {
         log.info("Got request /v5/sendToDB");
         dataInsertService.insertSampleData();
-
         return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
     }
 
