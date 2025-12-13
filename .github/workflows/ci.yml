@@ -52,4 +52,5 @@ jobs:
               -p 9001:9001 \
               -p 9404:9404 \
               -p 7071:7071 \
+              -v /var/log/mock-rest:/home/runner \
               ${{ secrets.DOCKER_USERNAME }}/mock-rest-controller:latest
