@@ -97,7 +97,7 @@ public class CheckController {
         log.info("Log return value: {}", response);
         return response;
     }
-
+/*
     private final DataInsertService dataInsertService;
 
     @PostMapping("/v5/sendToDB")
@@ -116,7 +116,7 @@ public class CheckController {
         Integer count = dataSelect.countByName(name);
         return "Количество сотрудников с именем " + name + ": " + count;
     }
-
+*/
     private final KafkaProducer kafkaProducer;
 
     @PostMapping("/v6/sendToKafka")
