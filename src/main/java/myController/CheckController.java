@@ -5,15 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import myController.service.FileLoaderJsonRPC;
-import myController.service.HeaderProvider;
-import myController.service.KafkaProducer;
+import myController.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import myController.service.DataInsertService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -110,6 +107,14 @@ public class CheckController {
         log.info("Got request /v5/sendToDB");
         dataInsertService.insertSampleData();
         return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
+    }
+
+    private final DataSelect dataSelect;
+
+    @GetMapping("/staff/count")
+    public String countStaffByName(@RequestParam String name) {
+        Integer count = dataSelect.countByName(name);
+        return "Количество сотрудников с именем " + name + ": " + count;
     }
 
     private final KafkaProducer kafkaProducer;
