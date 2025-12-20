@@ -25,11 +25,9 @@ public class MongoInsertService {
     }
 
     public void insertSampleData() {
-        List<String> names = List.of("Alice", "Bob", "Charlie", "David", "Eve");
-        List<String> positions = List.of("Developer", "QA", "Manager", "Analyst", "Designer");
+        List<String> names = List.of("Alisa", "Boris", "Cosmos", "Dmitry", "Elena");
+        List<String> positions = List.of("Developer", "QA", "Manager", "Analyst", "Performance tester");
         String company = "Digital Technology";
-
-        List<Document> docs = new ArrayList<>();
 
         String name = names.get(ThreadLocalRandom.current().nextInt(names.size()));
         String position = positions.get(ThreadLocalRandom.current().nextInt(positions.size()));
@@ -48,7 +46,7 @@ public class MongoInsertService {
         doc.put("email", email);
         doc.put("createdAt", Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
 
-        mongoTemplate.insert(docs, "it"); // вставка в коллекцию "it"
+        mongoTemplate.insert(doc, "it"); // вставка в коллекцию "it"
         log.info("Документ с именем '{}' успешно добавлен в коллекцию 'it'", name);
     }
 
