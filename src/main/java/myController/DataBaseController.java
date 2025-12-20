@@ -53,7 +53,7 @@ public class DataBaseController {
     public ResponseEntity<String> insertDataToMongo() {
         log.info("Got request /sendToMongo");
         mongoInsertService.insertSampleData();
-        return ResponseEntity.ok("Отправка данных в MongoDB прошла успешно!");
+        return ResponseEntity.ok("Отправка данных в MongoDB в коллекцию it прошла успешно!");
     }
 
 }
