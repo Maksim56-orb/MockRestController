@@ -1,11 +1,18 @@
 package myController.service;
 
-import org.bson.Document;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
+import org.bson.Document;
+
+@Slf4j
 @Service
 public class MongoInsertService {
 
@@ -16,13 +23,48 @@ public class MongoInsertService {
     }
 
     public void insertSampleData() {
-        // создаём тестовый документ
-        Document sample = new Document();
-        sample.put("name", "Test User");
-        sample.put("email", "test@example.com");
-        sample.put("createdAt", LocalDateTime.now());
+        List<String> names = List.of("Alice", "Bob", "Charlie", "David", "Eve");
+        List<String> positions = List.of("Developer", "QA", "Manager", "Analyst", "Designer");
+        String company = "Digital Technology";
 
-        // вставляем в коллекцию "users"
-        mongoTemplate.insert(sample, "users");
+        List<Document> docs = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            String name = names.get(ThreadLocalRandom.current().nextInt(names.size()));
+            String position = positions.get(ThreadLocalRandom.current().nextInt(positions.size()));
+            int age = ThreadLocalRandom.current().nextInt(28, 46);
+            BigDecimal salary = BigDecimal.valueOf(ThreadLocalRandom.current().nextInt(3000, 4001));
+            String phone = generatePhoneNumber();
+            String email = generateEmail(name);
+
+            Document doc = new Document();
+            doc.put("name", name);
+            doc.put("age", age);
+            doc.put("position", position);
+            doc.put("average_salary", salary);
+            doc.put("company", company);
+            doc.put("phone_number", phone);
+            doc.put("email", email);
+            doc.put("createdAt", LocalDateTime.now());
+
+            docs.add(doc);
+        }
+
+        mongoTemplate.insert(docs, "it"); // вставка в коллекцию "it"
+        log.info("{} документов успешно добавлены в коллекцию 'it'", docs.size());
+    }
+
+    private String generatePhoneNumber() {
+        StringBuilder phone = new StringBuilder("+7");
+        for (int i = 0; i < 10; i++) {
+            phone.append(ThreadLocalRandom.current().nextInt(0, 10));
+        }
+        return phone.toString();
+    }
+
+    private String generateEmail(String name) {
+        String cleanName = name.toLowerCase().replaceAll("[^a-z0-9]", "");
+        int suffix = ThreadLocalRandom.current().nextInt(100, 999);
+        return cleanName + suffix + "@mail.ru";
     }
 }
