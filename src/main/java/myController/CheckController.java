@@ -100,7 +100,7 @@ public class CheckController {
 
     private final KafkaProducer kafkaProducer;
 
-    @PostMapping("/v6/sendToKafka")
+    @PostMapping("/v5/sendToKafka")
     @Operation(summary = "Post Метод /v6/sendToKafka", description = "Данный метод отправляет сообщение в Kafka.")
     public ResponseEntity<String> sendToKafka() {
         log.info("Got request /v6/sendToKafka");
@@ -113,7 +113,7 @@ public class CheckController {
 
     private final FileLoaderJsonRPC fileLoader;
 
-    @PostMapping("/v7/jsonRpc")
+    @PostMapping("/v6/jsonRpc")
     @Operation(summary = "Post Метод /v7/jsonRpc", description = "POST метод JsonRPC. Принимает несколько методов на один End-point и в зависомости от метода возвращает разные ответы.")
     public String ihapi(@RequestBody JsonNode json) {
         var method = json.get("method").asText();

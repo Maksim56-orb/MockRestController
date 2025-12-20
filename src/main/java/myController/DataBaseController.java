@@ -24,7 +24,7 @@ public class DataBaseController {
         // PostgreSQL
     private final DataInsertService dataInsertService;
     private final DataSelect dataSelect; //правлю сейчас
-    @PostMapping("/v5/sendToDB")
+    @PostMapping("/v7/sendToDB")
     @Operation(summary = "Post Метод /v5/sendToDB", description = "Данный метод, предназначен для наполнения базы данных.")
 
     public ResponseEntity<String> insertData() {
@@ -35,14 +35,14 @@ public class DataBaseController {
 
     // этот метод — вызывает PostgreSQL-запрос
 
-    @GetMapping("/staff/count")
+    @GetMapping("/v8/staff/count")
     public String countStaffByName(@RequestParam String name) {
         Integer count = dataSelect.countByName(name);
         return "Количество сотрудников с именем " + name + ": " + count;
     }
 
     // этот метод — вызывает PostgreSQL-функцию
-    @GetMapping("/staff/count/function")
+    @GetMapping("/v9/staff/count/function")
     public String countStaffByNameFunction(@RequestParam String name) {
         Integer count = dataSelect.countByNameFunction(name);
         return "Количество сотрудников (через функцию) с именем " + name + ": " + count;
@@ -51,7 +51,7 @@ public class DataBaseController {
     //Метод добавления данных в MongoDB
     private final MongoInsertService mongoInsertService;
 
-    @PostMapping("/sendToMongo")
+    @PostMapping("/v10/sendToMongo")
     @Operation(summary = "Post Метод /sendToMongo", description = "Метод для наполнения MongoDB тестовыми данными.")
     public ResponseEntity<String> insertDataToMongo() {
         log.info("Got request /sendToMongo");
@@ -62,7 +62,7 @@ public class DataBaseController {
     //Метод запрашивет данные из MongoDB по имени сотрудника. Возвращает список документов по имени сотрудника.
     private final DataSelect mongoSelectService;
 
-    @GetMapping("/countMongoDB/ByName")
+    @GetMapping("/v11/countMongoDB/ByName")
     @Operation(summary = "Выборка из MongoDB", description = "Возвращает документы из коллекции 'it' по имени")
     public ResponseEntity<List<Document>> findMongoByName(@RequestParam String name) {
         List<Document> docs = mongoSelectService.findByName(name);
