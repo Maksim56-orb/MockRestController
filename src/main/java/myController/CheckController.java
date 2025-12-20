@@ -97,26 +97,7 @@ public class CheckController {
         log.info("Log return value: {}", response);
         return response;
     }
-/*
-    private final DataInsertService dataInsertService;
 
-    @PostMapping("/v5/sendToDB")
-    @Operation(summary = "Post Метод /v5/sendToDB", description = "Данный метод, предназначен для наполнения базы данных.")
-
-    public ResponseEntity<String> insertData() {
-        log.info("Got request /v5/sendToDB");
-        dataInsertService.insertSampleData();
-        return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
-    }
-
-    private final DataSelect dataSelect;
-
-    @GetMapping("/staff/count")
-    public String countStaffByName(@RequestParam String name) {
-        Integer count = dataSelect.countByName(name);
-        return "Количество сотрудников с именем " + name + ": " + count;
-    }
-*/
     private final KafkaProducer kafkaProducer;
 
     @PostMapping("/v6/sendToKafka")

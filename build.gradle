@@ -14,6 +14,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     runtimeOnly 'org.postgresql:postgresql'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation("com.fasterxml.jackson.core:jackson-databind")
     compileOnly("org.projectlombok:lombok") // опционально
     annotationProcessor("org.projectlombok:lombok") // опционально

@@ -11,15 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
-@Tag(name = "CheckController", description = "Тетсовый ко контроллер")
+@Tag(name = "CheckController", description = "Контроллер с методами для работы с Базами Данных")
 @RestController
 @RequiredArgsConstructor
 
 public class DataBaseController {
 
         //информация по методам контроллера описана в Swagger  http://92.242.61.11:9001/swagger-ui/index.html
-
+        // PostgreSQL
     private final DataInsertService dataInsertService;
+    private final DataSelect dataSelect; //правлю сейчас
     @PostMapping("/v5/sendToDB")
     @Operation(summary = "Post Метод /v5/sendToDB", description = "Данный метод, предназначен для наполнения базы данных.")
 
@@ -28,9 +29,8 @@ public class DataBaseController {
         dataInsertService.insertSampleData();
         return ResponseEntity.ok("Отправка данных в БД прошла успешно!");
     }
-    private final DataSelect dataSelect;
 
-    // этот метод — вызывает PostgreSQL-функцию
+    // этот метод — вызывает PostgreSQL-запрос
 
     @GetMapping("/staff/count")
     public String countStaffByName(@RequestParam String name) {
@@ -45,5 +45,15 @@ public class DataBaseController {
         return "Количество сотрудников (через функцию) с именем " + name + ": " + count;
     }
 
+    //Метод добавления данных в MongoDB
+    private final MongoInsertService mongoInsertService;
+
+    @PostMapping("/sendToMongo")
+    @Operation(summary = "Post Метод /sendToMongo", description = "Метод для наполнения MongoDB тестовыми данными.")
+    public ResponseEntity<String> insertDataToMongo() {
+        log.info("Got request /sendToMongo");
+        mongoInsertService.insertSampleData();
+        return ResponseEntity.ok("Отправка данных в MongoDB прошла успешно!");
+    }
 
 }
