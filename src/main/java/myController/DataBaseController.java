@@ -6,8 +6,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import myController.service.*;
 
+import org.bson.Document;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -54,6 +57,19 @@ public class DataBaseController {
         log.info("Got request /sendToMongo");
         mongoInsertService.insertSampleData();
         return ResponseEntity.ok("Отправка данных в MongoDB в коллекцию it прошла успешно!");
+    }
+
+    //Метод запрашивет данные из MongoDB по имени сотрудника. Возвращает список документов по имени сотрудника.
+    private final DataSelect mongoSelectService;
+
+    @GetMapping("/countMongoDB/ByName")
+    @Operation(summary = "Выборка из MongoDB", description = "Возвращает документы из коллекции 'it' по имени")
+    public ResponseEntity<List<Document>> findMongoByName(@RequestParam String name) {
+        List<Document> docs = mongoSelectService.findByName(name);
+        if (docs.isEmpty()) {
+            return ResponseEntity.ok().body(List.of());
+        }
+        return ResponseEntity.ok(docs);
     }
 
 }
